@@ -195,7 +195,7 @@ class Dtype(str):
 class Shape:
     def __init__(self, shape_tup):
         valid_types = (int, list, tuple, ivy.Array, ivy.Shape)
-        if len(backend_stack) != 0:
+        if ivy.current_framework() is None:
             valid_types += (ivy.NativeShape, ivy.NativeArray)
         else:
             valid_types += (
@@ -352,7 +352,7 @@ class Shape:
             raise ivy.utils.exceptions.IvyException(
                 "Cannot convert a partially known Shape to a list"
             )
-        return [dim for dim in self._shape]
+        return list(self._shape)
 
 
 class IntDtype(Dtype):
